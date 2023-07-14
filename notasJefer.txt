@@ -75,6 +75,7 @@ y desde el renderizado de html se puede hacer el uso de la propiedaddes de la cl
 
 Property binging
 La forma de modificar atributos 
+este se lo utiliza para modificar propiedades de atributos de html, estados, values
 componente nuevo en el controlador 
 btnDisabled = true;
 

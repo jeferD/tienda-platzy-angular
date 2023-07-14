@@ -10,6 +10,10 @@ export class AppComponent {
   age = 18;
   img = 'https://source.unsplash.com/random';
   btnDisabled = true;
+  persona = {
+    name:'Fabian',
+    age: 24
+  }
 }
 
 

@@ -5,11 +5,23 @@
 
 <h3>{{'Mi nombe es '+name+' y tengo '+age+ ' años'}}</h3>
 
-<img src={{img}} alt="immagen" width="500px" height="500px">
+<img src={{img}} alt="immagen" width="300px" height="300px">
 
 
 <hr/>
 
-<h1>Propiedades</h1>
+<h1>Propiedades Property binging</h1>
 <!-- <button disabled="false">Enviar</button> es lo mismo de abajo  -->
 <button [disabled]="btnDisabled">Enviar</button>
+
+<input type="text" [value]="name">
+
+<progress [value]="age" max="100"></progress>
+
+<img [src]="img" alt="imagen" width="300px" height="300px">
+
+
+
+<h1>Uso de una propiedad de un objeto</h1>
+
+<input type="text" [value]="persona.name"> 
