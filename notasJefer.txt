@@ -89,3 +89,56 @@ export class AppComponent {
 uso en el renderisado 
 <button [disabled]="btnDisabled">Enviar</button>
 
+
+
+=====================================================================================================
+
+Event Binding de Angular
+son eventos, al dar click ewn un boton va al componente y ejecuta el metodo que este asignado al click
+
+el metodo  
+  toggleButton(){
+    this.btnDisabled = !this.btnDisabled;
+  }
+
+esta declarado dentro de la clase appacomponen
+
+<button (click)="toggleButton()">Enviar a metodo de la clase</button>
+
+
+
+==========================================================================================================
+Data binding con ngModel
+
+Esta funcionalidad funciona para no declarar cosas sino que intuitivamente mira que debe hacer
+Importante recalcar que para hacer uso de ngModel debemos importar el “FormModule” y habilitar el mismo en app.module.ts
+
+ngModel raliza un seguimiento del valor y el estado de validación de un control de formulario individual debido a las propiedades que hereda de FormControl es recomentado saber como funciona dicho proceso.
+
+Podemos personalizar las validaciones que deberia tener un campo o el mismo formulario
+
+Aqui utilizamos las variables de referencia (las que tienen el signo #) y debemos indicar que la variable debera tomar el valor del ngModel <<#nameInput=“ngModel”>>
+
+Se pueden realizar las validaciones que normalmente encontramos en html y con “pattern” podemos especificar una comprobacion como exprecion regular
+
+Podemos tener un flujo de datos unidireccional con [] o bidireccional con [()]
+
+Acepta inputs
+
+Cuando se utiliza el ngModel sin la etiqueta <form> es necesario proporcionar un “nombre de atributo” de manera que el control pueda ser registrado en el formulario padre bajo ese nombre.
+
+
+
+=======================================================================================================
+Uso de *ngIf
+
+estructuras de contro, para saber si se valida un bloque de html para mostrarlo o no
+
+
+<div >
+    <h1>Contenido para mostrar *ngif</h1>
+    <input type="text" [(ngModel)]="persona.name"> <!-- hay que habilitar el paquede de formodel de agunlar para hacer uso de esta funcion  -->
+
+    <p *ngIf="persona.name === 'Jeferson'">Es igual a jeferson</p>
+    <p *ngIf="persona.name !== 'Jeferson'">Es diferente a jeferson</p>
+</div>

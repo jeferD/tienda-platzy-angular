@@ -1,0 +1,31 @@
+
+Para ejecutar un proyecto de Angular, sigue los siguientes pasos:
+
+Abre una terminal o línea de comandos en tu sistema operativo.
+
+Navega hasta el directorio raíz de tu proyecto de Angular usando el comando cd seguido de la ruta del proyecto. Por ejemplo:
+
+bash
+Copy code
+cd ruta/al/proyecto
+Una vez dentro del directorio del proyecto, ejecuta el siguiente comando para instalar las dependencias del proyecto:
+Copy code
+npm install
+Esto descargará todas las dependencias especificadas en el archivo package.json en una carpeta llamada node_modules.
+
+Después de que se hayan instalado las dependencias, ejecuta el siguiente comando para compilar y construir el proyecto:
+Copy code
+ng build
+Esto generará una carpeta llamada dist que contiene los archivos estáticos optimizados para producción.
+
+Finalmente, para ejecutar el proyecto, utiliza el siguiente comando:
+Copy code
+ng serve
+Esto iniciará el servidor de desarrollo de Angular y el proyecto estará disponible en http://localhost:4200/. Puedes abrir esta URL en tu navegador para ver y probar la aplicación.
+
+Si deseas ejecutar el proyecto en un puerto diferente al predeterminado (4200), puedes usar la opción --port seguida del número de puerto deseado. Por ejemplo:
+
+css
+Copy code
+ng serve --port 3000
+Estos son los pasos básicos para ejecutar un proyecto de Angular. Asegúrate de tener instalado Node.js y Angular CLI en tu sistema antes de comenzar.

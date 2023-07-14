@@ -16,7 +16,7 @@
 
 <input type="text" [value]="name">
 
-<progress [value]="age" max="100"></progress>
+<progress [value]="persona.age" max="100"></progress>
 
 <img [src]="img" alt="imagen" width="300px" height="300px">
 
@@ -25,3 +25,44 @@
 <h1>Uso de una propiedad de un objeto</h1>
 
 <input type="text" [value]="persona.name"> 
+
+
+<h1>Event Binding de Angular </h1>
+<button (click)="toggleButton()">Enviar a metodo de la clase</button>
+
+<h2>Edad {{persona.age}}</h2>
+<button (click)="increaseAge()">Incrementar edad</button>
+
+
+<div class="box" (scroll)="onScroll($event)">
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo eum excepturi distinctio soluta. Architecto sit, alias quibusdam repellat exercitationem iste libero rem, iusto ipsa earum vitae numquam aperiam, doloremque magnam.,Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis quia vitae expedita quam natus quasi recusandae, accusamus rerum commodi suscipit totam. Et itaque debitis, magni possimus consequatur provident perspiciatis eos?</p>
+    
+
+    
+</div>
+
+<h2>Nombre {{persona.name}}</h2>
+<input type="text" [value]="persona.name" (keyup)="changeName($event)">
+
+
+<h1>Data binding con ngModel</h1>
+<input type="text" #nameInput="ngModel" required [(ngModel)]="persona.name"> <!-- hay que habilitar el paquede de formodel de agunlar para hacer uso de esta funcion  -->
+
+
+<p>Valid: {{nameInput.valid}}</p>
+
+
+<div >
+    <h1>Contenido para mostrar *ngif</h1>
+    <input type="text" [(ngModel)]="persona.name"> <!-- hay que habilitar el paquede de formodel de agunlar para hacer uso de esta funcion  -->
+
+    <p *ngIf="persona.name === 'Jeferson'">Es igual a jeferson</p>
+    <p *ngIf="persona.name !== 'Jeferson'">Es diferente a jeferson</p>
+
+    <input type="text" [(ngModel)]="persona.age">
+    <p *ngIf="persona.age === 24 ; else myBloke">La edad es correcta {{persona.age}}</p>
+
+    <ng-template #myBloke>
+        <p>La edad no es correcta</p>
+    </ng-template>
+</div>
