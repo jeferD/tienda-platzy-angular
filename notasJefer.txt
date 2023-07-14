@@ -1,0 +1,90 @@
+cliente de comandos de angular  , intalarlo de manera global, -g
+npm i -g @angular/cli 
+
+
+Verifica versión de Node: node -v
+
+Verifica versión de npm: npm -v
+
+Instala el CLI de Angular: npm -g @angular/cli
+
+Verifica tu instalación: ng version
+
+Crea tu primer proyecto: ng new my-project
+
+Ejecuta el servidor de desarrollo: ng serve Dentro de la carpeta de tu proyecto.
+ng serve -o este abre el navegador
+ng serve -o --port=3500 este abre el navegador y que corra por el puerto que quiera yo
+ng version revisar dentro del protecto las versiones de angular en las que se esta trabajando
+
+
+
+
+==================================================================================================
+estructura de un proyecto de angular
+
+src -> corazon del codigo
+
+.editorconfinfi -> configuraciones para equipos
+
+tsconfig.json -> configuracion de versiones de js y tyjs y algunas configuraciones de angular 
+
+angular.json -> manejhar diferentes ambientes, qa - desarrollo
+
+.nvmrc -> la version en la que corre node
+
+
+
+
+
+===================================================================================================
+String interpolation
+
+es la manera de asignar valores con la sintaxis 
+{{name}}
+
+con esta sintaxis se puede utilizar funciones de js
+<h2>{{'Hola Mundo '.repeat(5)}}</h2>
+
+===================================================================================================
+
+variables que estan en el componente y hacer uso desde nuestro renderisado 
+
+La ruta principal de angular es el siguiente donde se encuenta el html principal, renderisado de html
+/home/cristal/Escritorio/Angular Platzy/my-store/src/app/app.component.html
+
+app.component.ts es el archivo donde le dice a angular como comportarse
+/home/cristal/Escritorio/Angular Platzy/my-store/src/app/app.component.ts
+tambien indica a que template esta ligado, ejemplo este esta ligado a app.component.html
+
+se declara 
+export class AppComponent {
+    name = 'Jefer';
+    age = 18;
+  } 
+y desde el renderizado de html se puede hacer el uso de la propiedaddes de la clase
+
+
+<h3>{{'Mi nombe es '+name+' y tengo '+age+ ' años'}}</h3>
+
+
+
+
+===================================================================================================
+
+
+Property binging
+La forma de modificar atributos 
+componente nuevo en el controlador 
+btnDisabled = true;
+
+export class AppComponent {
+    name = 'Jefer';
+    age = 18;
+    img = 'w';
+    btnDisabled = true;
+  }
+
+uso en el renderisado 
+<button [disabled]="btnDisabled">Enviar</button>
+
