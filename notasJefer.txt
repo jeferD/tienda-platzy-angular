@@ -142,3 +142,77 @@ estructuras de contro, para saber si se valida un bloque de html para mostrarlo 
     <p *ngIf="persona.name === 'Jeferson'">Es igual a jeferson</p>
     <p *ngIf="persona.name !== 'Jeferson'">Es diferente a jeferson</p>
 </div>
+
+
+
+=============================
+
+*NGFOR
+hacer el recorrido de un array que se declaro en components
+names: string[] = ['Jefer', 'Juli', 'Lili'];
+
+<h2>USO DE *NGFOR</h2>
+<ul>
+    <li *ngFor=" let name of names">
+        {{name}}
+    </li>
+</ul>
+
+
+crear un modelo para las variables del objeto de productos 
+export interface Product{
+  name:string,
+  price: number,
+  image: string,
+  category?: string//dice que categoria puede se obsional con ?
+}
+
+este array triene objeto, por lo tanto hay que crear un modelo de datos para poder justificar que siempre cumpla la 
+condicion del modelo
+products = [
+  {
+    name: 'EL mejor juguete',
+    price: 565,
+    image: 'https://source.unsplash.com/random',
+    category: 'all',
+  },
+  {
+    name: 'Bicicleta casi nueva',
+    price: 356,
+    image: 'https://source.unsplash.com/random'
+  },]
+
+
+  =========================================================================
+  Uso de *ngSwitch
+
+  se evalua un dato de un objeto y se hace uso de ello
+
+
+  <h2>Uso de *ngSwitch</h2>
+<div [ngSwitch]="persona.name">
+    <p *ngSwitchCase="'Jefer'">Es Jeferson</p>
+    <p *ngSwitchCase="'Lili'">Es Lili</p>
+    <p *ngSwitchCase="'Julian'">Es Julian</p>
+    <p *ngSwitchCase="'Isa'">Es Isa</p>
+    <p *ngSwitchDefault>No es igual</p>
+    
+</div>
+
+
+=========================================================================
+
+Estilos a la lista de productos
+los estilos estan en la ruta, se hace uso del compilador de estilos sass
+
+my-store\src\app\app.component.scss
+
+
+
+NgClass y NgStyle
+
+
+
+============================================
+ng build
+realiza un compilado de nuestros archivos para hacer deploument 

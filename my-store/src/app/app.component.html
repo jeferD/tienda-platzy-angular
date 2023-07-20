@@ -66,3 +66,82 @@
         <p>La edad no es correcta</p>
     </ng-template>
 </div>
+
+
+<h2>USO DE *NGFOR</h2>
+<input type="text" [(ngModel)]="newName">
+<button (click)="addName()">Agregar dato a array</button>
+<ul>
+    <li *ngIf="names.length === 0">No hay nombres</li>
+    <li *ngFor=" let name of names; index as i">
+        {{i}}{{name}}
+        <button (click)="eliminarName(i)">Eliminar</button>
+    </li>
+</ul>
+
+<div>
+    <div *ngFor="let product of products">
+        <img [src]="product.image" [alt]="product.name" width="250px" height="250px">
+        <h2>{{product.price}}</h2>
+        <p>{{product.name}}</p>
+
+    </div>
+</div>
+
+
+<h2>Uso de *ngSwitch</h2>
+<div [ngSwitch]="persona.name">
+    <p *ngSwitchCase="'Jefer'">Es Jeferson</p>
+    <p *ngSwitchCase="'Lili'">Es Lili</p>
+    <p *ngSwitchCase="'Julian'">Es Julian</p>
+    <p *ngSwitchCase="'Isa'">Es Isa</p>
+    <p *ngSwitchDefault>No es igual</p>
+    
+</div>
+
+
+<h2>Estilos a la lista de productos*****************************</h2>
+<div class="products--grid">
+    <div *ngFor="let product of products">
+        <img [src]="product.image" [alt]="product.name" width="250px" height="250px">
+        <h2>{{product.price}}</h2>
+        <p>{{product.name}}</p>
+
+    </div>
+</div>
+
+
+
+
+<h2>Class and style¨******************************</h2>
+<h1>el campo debe ser Jefer </h1>
+<input type="text" #nameInput2="ngModel" required [(ngModel)]="persona.name">
+
+<p class="mensaje-error" [class.invalid]="nameInput2.invalid">El campo no es correcto</p>
+
+
+
+<h2>Crear un formulario</h2>
+
+<form (ngSubmit)="onRegister()" #myForm="ngForm">
+    <div class="input-group">
+        <label for="">Nombre:</label>
+        <input type="text" name="Nombre" id="name" [(ngModel)]="register.name">
+        <p>Mensaje de error</p>
+        <label for="">Email:</label>
+        <input type="text" name="Correo" id="email" [(ngModel)]="register.email">
+        <p>Mensaje de error</p>
+        <label for="">Password:</label>
+        <input type="text" name="Contraseña" id="password" [(ngModel)]="register.password">
+        <p>Mensaje de error</p>
+
+    </div>
+    <!-- <button [disabled]="myForm.invalid" type="submit">Registrar</button> -->
+    <!-- <button [disabled]="myForm.invalid" type="submit">Registrar</button> -->
+    <button type="submit" [attr.disabled]="!myForm.valid ? true : null">Submit</button>
+</form>
+
+
+<h1>{{1+2}}</h1>
+<!-- <h1>{{Math.pow(2,2)}}</h1> -->
+<h1>{{[1,2].reverse()}}</h1>
