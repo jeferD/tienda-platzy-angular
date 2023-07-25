@@ -216,3 +216,674 @@ NgClass y NgStyle
 ============================================
 ng build
 realiza un compilado de nuestros archivos para hacer deploument 
+
+
+
+
+================================================
+
+
+Que son los componentes
+¿QUÉ SON LOS COMPONENTES?
+
+Un componente tiene responsabilidades unicas, estructura propia con estilos apropiados.
+
+Componentes generado tiene los siguientes archivos:
+-> todo.component.html
+-> todo.component.css
+-> todo.component.spec.ts (pruebas en angular)
+-> todo.component.ts
+
+Comando para crear un componente
+-> ng g c name_component
+-> ng g c dentro de carpeta/name_component
+
+la g es generate 
+la c es componente
+
+Crear componente sin estilos
+-> ng g c componentes/name_component -is
+
+Crear componente sin archivos de testing
+-> ng g c componentes/img --skip-tests
+
+
+llamar un componente desde el componente padre 
+<app-img>
+    
+</app-img>
+
+
+====================================================
+
+pasar datos desde los imputs
+C:\Users\Jeferson Delgado\Documents\Angular platzi\tienda-platzy-angular\my-store\src\app\app.component.ts
+desde el componmente padre crea una variable imgParent, con un valor, y se lo pasa al componente app-img
+
+
+<p><input type="text" [(ngModel)]="imgParent"/></p>
+<app-img [img]="imgParent">
+
+</app-img>
+
+
+en el componente app-img lo recibe asignado
+<h2>{{img}}</h2> o asi
+<img [src]="img" (load)="imgLoaded()" (error)="imgError()" alt="Imagen prueba" *ngIf="img; else elseImg" width="500px">
+(error)="imgError()" este es un evento por defecto que dice que si no existe esa ruta entonces ejecute la siguiente funcion
+que es una imagen por defecto qye esta creada en el componente hijo de img 
+imageDefault = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCZJ8iFDOVFhpUHBTLskFlRewlGW3RICzOgzVyf67sVgff6YtefMHNB0IaepRRO3f6IZg&usqp=CAU'
+
+imgError(){
+  this.img = this.imageDefault
+}
+
+(load)="imgLoaded()" esta funcion es nativa para etiquetas img
+
+impiortante importar estas cosas  Input, Output, EventEmitter para poder traer datos a los componentes
+y tambien enviar al compionente padre los valores
+
+
+se crea en el hijo una variable de tipo  EventEmitter, esto permite crear eventos  propios
+
+@Output() loaded = new EventEmitter()
+
+en el html padre se recibe el evento loaded y cuando haya una escucha este carga una funcion que 
+esta en el componente padre , la funciuon se llama onLoaded()
+<app-img (loaded)="onLoaded()" [img]="imgParent">
+
+
+
+
+==================================================================
+
+componente para productos
+
+
+se crea el objeto de product con un tipado Product, que fue el modelo que se creo Aqui
+C:\Users\Jeferson Delgado\Documents\Angular platzi\tienda-platzy-angular\my-store\src\app\models\product.model.ts
+export interface Product{
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+}
+
+product: Product={
+  id: '1',
+  name:'Naruto',
+  image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj3Fl-tA6mhgizSNlU2FDGrC74h8rNNj1R9ZN9ROTr45P7QP26311KHzE8hioSC1waHyo&usqp=CAU',
+  price: 100
+}
+
+
+=================================================================
+
+Ciclo de vida de componentes
+
+en el constructor no se hace una funcion asincronas
+el constriuctor se crea despues del renderisado
+
+
+Constructor: cuando se corre una instancia
+ngOnChanges : corre antes y durante en el render, siemrpe que detecte cambios en el Input, está para eso, para detectar los cambios.
+ngOnInit: corre antes pero tiene la condicione que solo correo una vez. Ahi se corren eventos asincronos.
+ngAfcterViewInit: corre cuando los hijos de ese componentes se han renderizado.
+NgOnDestroy: Corre cuando se elimina el componente.
+
+Constructor:
+Angular lo ejecuta cada vez que se crea una instancia de un componente.
+No hacer llamadas asíncronas. Lo que ejecute, se debe completar de inmediato
+
+ngOnChange:
+El evento corre antes del render y durante, si detecta cambios en los inputs. Corre múltiples veces.
+
+ngOnInit:
+Corre antes del render, pero solo una vez, cuando el componente está inicializado. Acá se hacen las llamadas asíncronas, como fetch, llamadas a API, promesas.
+
+ngAfterViewInit:
+Corre cuando los hijos de un componente ya se han inicializado, después del render. Acá se agrega el código que modifica los componentes hijos de manera programática, por fuera del template.
+
+ngOnDestroy:
+Corre cuando un componente se elimina. Por ejemplo a causa de un if.
+
+Se debe importar las interfaz del evento e implementarla en la clase del componente.
+
+
+
+
+
+
+============================================================
+
+Creacion de servicios
+Con este comando se crea una carpeta llamada services 
+
+ng g s services/store
+
+
+
+Es muy sencillo crear un servicio en Angular, inyectarlo en un componente y utilizar su lógica. Pero siempre es recomendable entender **¿qué es la inyección de dependencias?, cómo se está haciendo y qué sucede detrás en tu aplicación.
+
+Patrones de diseño
+Angular usa varios patrones de diseño para permitir que esto funcione.
+
+Inyección de dependencias
+Imagínate que tienes el siguiente panorama:
+Un Servicio A que emplea el Servicio B y este a su vez utiliza el Servicio C.
+
+Si tuvieses que instanciar el Servicio A, primero deberías:
+instanciar el C para poder continuar con el B y luego sí hacerlo con el A. Se vuelve confuso y poco escalable si en algún momento también tienes que instanciar el Servicio D o E.
+
+La inyección de dependencias soluciona las dependencias de una clase por nosotros.
+
+Cuando instanciamos en el constructor el servicio A, Angular por detrás genera automáticamente la instancia del servicio B y C sin que nosotros nos tengamos que preocupar por estos.
+
+Cuando creaste tu primer servicio con el CLI de Angular:
+
+// services/test-name.service.ts
+import { Injectable } from '@angular/core';
+@Injectable({
+  providedIn: 'root'
+})
+export class TestNameService {
+  constructor() { }
+}
+Este le proporcionó a la clase el decorador @Injectable({ ... }) con el valor providedIn: 'root' que determina el scope del servicio, o sea, determina que el mismo estará disponible en toda el módulo de tu aplicación por default.
+
+Singleton
+La inyección de dependencias no es el único patrón de diseño que Angular usa con sus servicios. También hace uso del patrón Singleton para crear una instancia única de cada servicio.
+
+Si tienes un servicio que se utiliza en N cantidad de componentes (u otros servicios), todos estarán utilizando la misma instancia del servicio y compartiendo el valor de sus variables y todo su estado.
+
+Precauciones utilizando servicios
+Ya has visto hasta aquí que un servicio puede ser importado en muchos componentes u otros servicios a la vez. Puedes inyectar la cantidad de servicio que quieras en un componente, siempre de una forma controlada y coherente.
+
+inyección de dependencias.png
+Solo debes tener cuidado con las dependencias circulares. Cuando un servicio importa a otro y este al anterior. Angular no sabrá si vino primero el huevo o la gallina y tendrás un error al momento de compilar tu aplicación.
+
+
+
+
+==================================================================
+consumir API
+instalar el servicio
+ng g s services/products
+
+Uno de los procesos asíncronos más comunes son las peticiones de datos desde una API. Para esto, Angular posee su propio cliente HTTP destinado a cumplir con el propósito llamado HttpClientModule.
+
+Consumo de API con Angular
+Paso 1: Comienza importando el módulo HttpClientModule, en el módulo principal de tu aplicación desde @angular/common/http.
+
+// app.module.ts
+en esta ruta se agrega la importacion del componente de angular 
+C:\Users\Jeferson Delgado\Documents\Angular platzi\tienda-platzy-angular\my-store\src\app\app.module.ts
+import { HttpClientModule } from '@angular/common/http';
+
+@NgModule({
+  declarations: [
+    // ..
+  ],
+  imports: [
+    // ...
+    HttpClientModule
+  ],
+  providers: [],
+  bootstrap: [ /* .. */ ]
+})
+export class AppModule { }
+Paso 2: Crea un servicio para realizar todos los llamados a una API que necesites. En este servicio tienes que importar el cliente HTTP de Angular y crear un método por cada endpoint para el que necesites efectuar una petición.
+
+// services/api.service.ts
+import { HttpClient } from '@angular/common/http';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApiService {
+
+  constructor(
+    private http: HttpClient,
+  ) { }
+  
+  getProducts() {
+    return this.http.get(`https://example.com/api/productos`);
+  }
+}
+Paso 3: Importa este nuevo servicio en tus componentes para efectuar los llamados a la API.
+
+// components/catalogo/catalogo.component.ts
+import { ApiService } from 'src/app/services/api.service';
+
+@Component({
+  selector: 'app-catalogo',
+  templateUrl: './catalogo.component.html',
+  styleUrls: ['./catalogo.component.scss']
+})
+export class CatalogoComponent implements OnInit {
+
+  public productos: Producto[] = [];
+
+  constructor(
+    private apiService: ApiService
+  ) { }
+
+  ngOnInit(): void {
+      this.apiService.getProducts()
+        .subscribe(res => {
+          this.productos = res;
+        });
+  }
+
+  // ...
+}
+El método ngOnInit() es el lugar apropiado para los llamados asincrónicos, recuerda que no es buena práctica hacerlo en el constructor.
+
+Todo el cliente HTTP de Angular está basado en Observables, por lo tanto, es recomendable suscribirse al método del servicio para obtener los datos cuando la API responda.
+
+TIP: No es necesario que hagas un .unsubscribe() luego del llamado a la API. Angular ya lo hace por ti, cuando usas su cliente HTTP.
+
+Jugando con observables
+Si no tienes a tu disposición una API Rest que devuelva datos para tu aplicación, voy a enseñarte un pequeño truco para que aun así puedas continuar con tu desarrollo con un mock de datos.
+
+Un Mock es una simulación de los datos reales que devolverá la API, salvo que esta vez obtendrás dichos datos desde el servicio a través de un Observable.
+
+// services/api.service.ts
+import { Observable, of } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApiService {
+
+  constructor() { }
+
+  getProducts(): Observable<Producto[]> {
+    return of([
+      {
+        id: 1,
+        name: 'Automobil de juguete',
+        precio: 100,
+        image: 'https://static3.depositphotos.com/1000865/118/i/600/depositphotos_1183767-stock-photo-toy-car.jpg'
+      },
+      {
+        id: 2,
+        name: 'Muñeca de trapo',
+        precio: 180,
+        image: 'https://kinuma.com/8869-home_default/muneca-de-trapo-mali.jpg'
+      },
+      {
+        id: 3,
+        name: 'Pelota de futbol',
+        precio: 120,
+        image: 'https://media.istockphoto.com/photos/soccer-ball-isolated-3d-rendering-picture-id1257575611?k=20&m=1257575611&s=612x612&w=0&h=g530fFJspT42xFGY7HycLvpBKLXpJ2XAkKCRyY-SK80='
+      },
+      {
+        id: 4,
+        name: 'Castillo',
+        precio: 220,
+        image: 'https://i.imgur.com/44nzvkQ.jpg'
+      }
+    ])
+  }
+
+}
+En el ejemplo anterior, desde RxJS se está importando “Observable” y “of” que te ayudarán a preparar tus datos.
+
+Con Observable puedes tipear la respuesta de tus métodos de la siguiente manera Observable<Producto[]> para indicar que este devolverá un observable con un array de productos. La función of convierte lo que sea que le pongas dentro (un objeto, un array, un número, etc), en un observable.
+
+De esta forma, sin tener una API real, puedes simular la interacción de tu componente con datos provenientes de una proceso asincrónico.
+
+
+
+
+
+
+
+
+====================================================================================================
+
+Tipos de pipes
+ng g p pipes/reverse
+
+"hola soy platzi" | uppercase esto es un pipe una entrada y una salida, esto es que combierte el texto en mayuscula
+Angular posee por defecto algunos pipes que puedes utilizar para transformar números, fechas o cadenas de texto. Veamos los más importantes:
+
+DatePipe: Modifica fechas de acuerdo al formato necesitado.
+UpperCasePipe: Convierte todo el texto a mayúscula.
+LowerCasePipe: Convierte todo el texto en minúscula.
+CurrencyPipe: Convierte un número a la moneda o divisa necesitada.
+Podrás encontrar en la documentación oficial de Angular más Pipes y su funcionamiento.
+
+Utilizando pipes
+Los pipes se utilizan fácilmente en el HTML haciendo uso del carácter “|” seguido del nombre del pipe.
+
+<div>
+  {{ "hola soy platzi" | uppercase }}
+</div>
+<div>
+  {{ 1000 | currency:'USD' }}
+</div>
+En los ejemplos anteriores, se mostrará en la vista el testo HOLA SOY PLATZI completamente en mayúscula y el número 1000 en formato $1,000.00. En algunos casos, los pipes reciben parámetros de configuración, como el caso del pipe currency que recibe :'USD' para indicar el tipo de divisa.
+
+Contribución creada con los aportes de Kevin Fiorentino.
+
+
+
+
+
+============================================================================================
+
+
+
+crear pipe
+
+
+
+Crear principal Para poder afirmar que estás construyendo tu propio Pipe, es necesario hacer uso del CLI de Angular con el comando ng generate pipe test-name o en su forma corta con ng g p test-name.
+
+Mi primer “pipe” en Angular
+De la misma manera que lo hace con los servicios y componentes, el CLI creará un archivo .ts que contiene el código del pipe y un archivo .spec.ts para sus respectivas pruebas unitarias.
+
+// pipes/test-name.pipe.ts
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'testName'
+})
+export class TestNamePipe implements PipeTransform {
+  transform(value: unknown, ...args: unknown[]): unknown {
+    return null;
+  }
+}
+El pipe ya trae algo de código y configuraciones por defecto. Tendrás que cambiar los unknown por el tipeado que necesites dependiendo el pipe que estés generando.
+
+Es importante observar el decorador @Pipe() que contiene el nombre del pipe, para así poder llamarlo en tu HTML.
+Y no olvides importar el pipe en el módulo de tu aplicación para que este pueda ser utilizado.
+
+// app.module.ts
+import { TestNamePipe } from './pipes/test-name.pipe';
+@NgModule({
+  declarations: [
+    // ...
+    TestNamePipe,
+  ],
+  imports: [
+    // ...
+  ],
+  providers: [],
+  bootstrap: [ /* ... */ ]
+})
+export class AppModule { }
+Currency pipe personalizado
+Vamos a crear tu propio currency pipe. Para esto harás uso del objeto global de Javascript Intl. Si no conocías este objeto, puedes leer más al respecto de su Especificación de ECMAScript.
+
+El global Jacascript Intl, proporciona una API de internacionalización para el formateo de monedas y fechas, entre otras funcionalidades más.
+
+Veamos un ejemplo de cómo utilizarlo:
+// pipes/custom-currency.pipe.ts
+import { Pipe, PipeTransform } from '@angular/core';
+@Pipe({
+  name: 'customCurrency'
+})
+export class CustomCurrencyPipe implements PipeTransform {
+
+  transform(value: number, ...args: string[]): string {
+    const divisa = args[0];
+
+    if (divisa == 'USD')
+      return new Intl.NumberFormat('en-us', { style: 'currency', currency: 'USD' }).format(value);
+    else
+      return new Intl.NumberFormat('es-ar', { style: 'currency', currency: 'ARS' }).format(value);
+  }
+
+}
+El pipe recibe un parámetro del tipo numbery usando el segundo parámetro args puedes capturar las variables que necesites pasarle. En este ejemplo, lo empleamos para configurar el tipo de divisa.
+Verificamos qué divisa se está pasando por parámetro. Si es USD, empleando el objeto Intl damos formato a la moneda para que sea $1,000.00 mientras que con cualquier otra divisa sea $1.000,00. Nota la pequeña diferencias de intercambiar el punto y la coma para formatear el número y los decimales.
+
+Finalmente, utiliza tu nuevo pipe en el HTML de la siguiente manera:
+
+<div>
+    {{ 1000 | customCurrency:'USD' }}
+</div>
+Los pipes utilizan un concepto llamado Memoization para ahora en tiempo de ejecución guardando el resultado de las funciones en memoria.
+Emplea tus propios pipes siempre que sea posible para optimizar tu aplicación.
+
+
+
+
+
+======================================================================================
+Conociendo las directivas
+
+instalar directivas
+ng g d directives/highlight
+
+Angular utiliza el concepto de directiva para cambiar la apariencia o el comportamiento de un elemento en el HTML. Acá estaremos conociendo las directivas.
+
+Tu primera directiva
+Para crear tu primera directiva, es necesario usar el CLI de Angular con el comando ng generate directive test-name o en su forma corta ng g d test-name.
+
+Al igual que con los servicios y los pipelines, el comando CLI creará un archivo .ts con el código de tu directiva y un archivo .spec.ts para sus respectivas pruebas unitarias.
+
+El CLI también actualizará el archivo app.module.ts importando la directiva en las declarations[]. No olvides de asegurarte que se esté importando correctamente. De lo contrario, Angular no reconocerá la directiva.
+
+Las directivas por defecto tienen el siguiente aspecto:
+
+import { Directive } from '@angular/core';
+
+@Directive({
+  selector: '[appTestName]'
+})
+export class TestNameDirective {
+  constructor() { }
+}
+Utilizan el decorador @Directive() que contiene el nombre que utilizarás en el HTML para utilizar la directiva.
+
+Manipulando estilos
+En las directivas, puedes capturar el elemento HTML importando el servicio ElementRef y de esta manera poder cambiar los estilos de dicho elemento:
+
+// directives/change-color.directive.ts
+import { Directive, ElementRef } from '@angular/core';
+
+@Directive({
+  selector: '[appChangeColor]'
+})
+export class ChangeColorDirective {
+  constructor(
+    private element: ElementRef
+  ) {
+    this.element.nativeElement.style.color = 'blue';
+  }
+}
+<div>
+    <p appChangeColor>Texto color azul.</p>
+</div>
+Escuchando eventos
+Otra posibilidad que ofrecen las directivas, es la escucha de eventos. Haciendo uso del decorador @HostListener() e importado desde @angular/core puedes ejecutar una función cada vez que se produce un clic, hover, scroll o cualquier otro evento.
+
+// directives/change-color.directive.ts
+import { Directive, ElementRef, HostListener } from '@angular/core';
+
+@Directive({
+  selector: '[appChangeColor]'
+})
+export class ChangeColorDirective {
+
+  @HostListener('mouseenter') onMouseEnter() {
+    this.element.nativeElement.style.color = 'blue';
+  }
+  @HostListener('mouseleave') onMouseLeave() {
+    this.element.nativeElement.style.color = '';
+  }
+
+  constructor(
+    private element: ElementRef
+  ) { }
+}
+<div>
+    <p appChangeColor>Texto color azul al hacer hover.</p>
+</div>
+Pasando datos a una directiva
+Finalmente, si tienes la necesidad de que tu directiva reciba algún tipo de valor, lo mejor es apoyarte en el decorador que ya conoces @Input().
+
+// directives/change-color.directive.ts
+import { Directive, Input, ElementRef } from '@angular/core';
+
+@Directive({
+  selector: '[appChangeColor]'
+})
+export class ChangeColorDirective {
+
+  @Input() color!: string;
+
+  constructor(
+    private element: ElementRef
+  ) {
+    this.element.nativeElement.style.color = this.color;
+  }
+}
+<div>
+    <p appChangeColor [color]="'blue'">Texto color azul.</p>
+</div>
+<div>
+    <p appChangeColor [color]="'red'">Texto color rojo.</p>
+</div>
+<div>
+    <p appChangeColor [color]="'green'">Texto color verde.</p>
+</div>
+Puede ser algo difícil si recién estás comenzando con Angular imaginar un buen uso para una directiva propia. De momento, es importante saber que existen para poder implementarlas cuando llegue ese momento.
+
+
+
+
+=======================================================================================
+Reactividad básica
+
+cuando tiene esto es un observable 
+myCart$
+
+importa el mopdulo 
+import { BehaviorSubject } from 'rxjs';
+
+crear un estado 
+private myCart = new BehaviorSubject<Product[]>([]);
+
+El concepto de reactividad básica es muy importante en el desarrollo front-end. Se trata del estado de la aplicación con respecto al valor de los datos en cada componente, cómo estos cambian a medida que el usuario interactúa y cómo se actualiza la interfaz.
+
+Problemas en la comunicación de componentes
+Cuando pensamos en cómo comunicar un componente padre con su hijo y viceversa, solemos utilizar los decoradores @Input() y @Output().
+
+Pero muchas veces, en aplicaciones grandes, la comunicación de componentes se vuelve mucho más compleja y estas herramientas no alcanzan cuando se necesita enviar información de un componente “hijo” a uno “abuelo”.
+
+reactividad basica angular.png
+Solución a la comunicación de componentes
+Es recomendable implementar un patrón de diseño para mantener el estado de la aplicación centralizado en un único punto, para que todos los componentes accedan a ellos siempre que necesiten. A este punto central se lo conoce como Store.
+
+reactividad basica.png{height="" width=""}
+
+Implementando un store de datos
+Los store de datos suelen implementarse haciendo uso de Observables.
+
+Paso 1:
+Importa la clase BehaviorSubject desde la librería RxJS, que te ayudará a crear una propiedad observable, a la cual tu componente pueda suscribirse y reaccionar ante ese cambio de estado.
+
+// services/store.service.ts
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class StoreService {
+
+  private myShoppingCart: Producto[] = [];
+  private myCart = new BehaviorSubject<Producto[]>([]);
+  public myCart$ = this.myCart.asObservable();
+
+  constructor() { }
+
+  addProducto(producto: Producto): void {
+    // El observable emitirá un nuevo valor con cada producto que se agregue al carrito.
+    this.myShoppingCart.push(producto);
+    this.myCart.next(this.myShoppingCart);
+  }
+
+}
+Paso 2: Suscribe a cualquier componente que necesites a estos datos, para reaccionar cuando estos cambian.
+
+// components/nav-bar/nav-bar.component.ts
+import { StoreService } from 'src/app/services/store.service';
+import { Subscription } from 'rxjs';
+
+@Component({
+  selector: 'app-nav-bar',
+  templateUrl: './nav-bar.component.html',
+  styleUrls: ['./nav-bar.component.scss']
+})
+export class NavBarComponent implements OnInit, OnDestroy {
+
+  private sub$!: Subscription;
+
+  constructor(
+    private storeService: StoreService
+  ) { }
+
+  ngOnInit(): void {
+    this.storeService.myCart$
+      .subscribe(data => {
+        // Cada vez que el observable emita un valor, se ejecutará este código
+        console.log(data);
+      });
+  }
+  
+  ngOnDestroy(): void {
+    this.sub$.unsubscribe();
+  }
+
+}
+El lugar más apropiado para esto es en ngOnInit(). No olvides guardar este observable en una propiedad del tipo Subscription para hacer un unsubscribe() cuando el componente sea destruido.
+
+NOTA: Por convención, las propiedades que guardan observables suelen tener un “$” al final del nombre para indicar que se trata de un observable.
+
+
+
+
+
+
+===========================================================================================
+
+Guia de estilos de Angular y linters
+
+esto es para no incurrir en malas practicas, nos ayuda a mejorar el codigo y la declaracion de variables
+activar nuyesto linters 
+ng lint
+
+angular nos sugiere este mejor linters
+ng add @angular-eslint/schematics
+
+Angular posee una guia de estilos de Angular y linters de buenas prácticas que recomienda seguir en todos los proyectos que desarrolles con este framework. Estas son pautas que te ayudarán en la declaración de variables, nombre de archivos, nombres de funciones, sintaxis, etc.
+
+Estilos de codificación
+Con el comando ng add @angular-eslint/schematics podrás realizar la instalación automática de las herramientas que proporciona Angular, para inspeccionar tu código fuente en busca de incumplimientos a sus reglas.
+
+TIP: Instala la extensión “ESLint” en tu editor de texto o IDE de preferencia
+
+Una vez realizado este paso, es momento de evaluar el cumplimiento o no de esta guía de estilos. El comando ng lint arrojará por consola una lista de errores que la aplicación no cumple y que es necesario corregir.
+
+También puedes modificar e implementar tus propias reglas de codificación editando el archivo .eslintrc.json que fue creado en la raíz del proyecto.
+
+La importancia del Linter
+Que el código fuente cumpla con un determinado estándar de codificación es muy importante en aplicaciones profesionales. Algunas empresas toman la decisión de que el código fuente no llegue a producción si este no cumple con las reglas de estilos.
+
+Es conveniente planificar a futuro la escalabilidad de una aplicación, ya que los estilos de codificación, influyen en la calidad de cualquier software a largo plazo.
+
+El desafío para las y los profesionales del software, está en escribir un código fuente sólido y en adaptarse a las reglas de codificación de cualquier proyecto del que hagas parte.
+
+
+
+
+
+
+
+
+

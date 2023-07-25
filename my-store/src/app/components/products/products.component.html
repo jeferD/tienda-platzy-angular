@@ -1,0 +1,7 @@
+<h1>Desde producto</h1>
+<p>Total: {{total}}</p>
+<div class="products--grid">
+    <app-product [product]="product" *ngFor="let product of products" (addedProduct)="onAddToShoppingCar($event)">
+        
+    </app-product>
+</div>

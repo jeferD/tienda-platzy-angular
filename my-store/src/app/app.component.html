@@ -1,4 +1,19 @@
-<h1>Hola mundo</h1>
+
+<app-nav></app-nav>
+<app-products></app-products>
+
+
+<!-- <p><input type="text" [(ngModel)]="imgParent"/></p>
+<app-img (loaded)="onLoaded($event)" [img]="imgParent">
+
+</app-img> -->
+
+
+
+
+
+
+<!-- <h1>Hola mundo</h1>
 
 <h2>{{'Hola Mundo '.repeat(5)}}</h2>
 <p>3 + 3 = {{3 + 3}}</p>
@@ -10,9 +25,9 @@
 
 <hr/>
 
-<h1>Propiedades Property binging</h1>
+<h1>Propiedades Property binging</h1> -->
 <!-- <button disabled="false">Enviar</button> es lo mismo de abajo  -->
-<button [disabled]="btnDisabled">Enviar</button>
+<!-- <button [disabled]="btnDisabled">Enviar</button>
 
 <input type="text" [value]="name">
 
@@ -49,14 +64,14 @@
 <input type="text" #nameInput="ngModel" required [(ngModel)]="persona.name"> <!-- hay que habilitar el paquede de formodel de agunlar para hacer uso de esta funcion  -->
 
 
-<p>Valid: {{nameInput.valid}}</p>
+<!-- <p>Valid: {{nameInput.valid}}</p>
 
 
 <div >
-    <h1>Contenido para mostrar *ngif</h1>
-    <input type="text" [(ngModel)]="persona.name"> <!-- hay que habilitar el paquede de formodel de agunlar para hacer uso de esta funcion  -->
+    <h1>Contenido para mostrar *ngif</h1> --> 
+    <!-- <input type="text" [(ngModel)]="persona.name"> hay que habilitar el paquede de formodel de agunlar para hacer uso de esta funcion  -->
 
-    <p *ngIf="persona.name === 'Jeferson'">Es igual a jeferson</p>
+    <!-- <p *ngIf="persona.name === 'Jeferson'">Es igual a jeferson</p>
     <p *ngIf="persona.name !== 'Jeferson'">Es diferente a jeferson</p>
 
     <input type="text" [(ngModel)]="persona.age">
@@ -135,13 +150,15 @@
         <input type="text" name="Contraseña" id="password" [(ngModel)]="register.password">
         <p>Mensaje de error</p>
 
-    </div>
+     </div> -->
     <!-- <button [disabled]="myForm.invalid" type="submit">Registrar</button> -->
     <!-- <button [disabled]="myForm.invalid" type="submit">Registrar</button> -->
-    <button type="submit" [attr.disabled]="!myForm.valid ? true : null">Submit</button>
-</form>
+    <!-- <button type="submit" [attr.disabled]="!myForm.valid ? true : null">Submit</button> -->
+<!-- </form> -->
 
 
-<h1>{{1+2}}</h1>
+<!-- <h1>{{1+2}}</h1> -->
 <!-- <h1>{{Math.pow(2,2)}}</h1> -->
-<h1>{{[1,2].reverse()}}</h1>
+<!-- <h1>{{[1,2].reverse()}}</h1> --> 
+
+
