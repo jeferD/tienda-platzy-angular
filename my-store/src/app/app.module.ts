@@ -16,6 +16,7 @@ import { HighlightDirective } from './directives/highlight.directive';
 
 
 
+import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { HighlightDirective } from './directives/highlight.directive';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SwiperModule
   ],
   providers: [],
   bootstrap: [AppComponent]

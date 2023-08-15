@@ -8,7 +8,9 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, AfterViewIni
 export class ImgComponent implements OnChanges {
   @Input() img: string = 'Valor Inicial'
   @Output() loaded = new EventEmitter<string>()
-  imageDefault = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCZJ8iFDOVFhpUHBTLskFlRewlGW3RICzOgzVyf67sVgff6YtefMHNB0IaepRRO3f6IZg&usqp=CAU'
+  // imageDefault = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCZJ8iFDOVFhpUHBTLskFlRewlGW3RICzOgzVyf67sVgff6YtefMHNB0IaepRRO3f6IZg&usqp=CAU'
+  // imageDefault = 'https://source.unsplash.com/random'
+  imageDefault: string = '';
   constructor(){
     // before render
     console.log('constructor')
@@ -17,6 +19,7 @@ export class ImgComponent implements OnChanges {
   ngOnInit(): void{
     //aqui se puede hacer un async - fetch, solo se corre una vez,
     // 
+    this.imageDefault = 'https://source.unsplash.com/random';
   }
 
   ngOnChanges(){
